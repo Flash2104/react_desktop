@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import logo from './logo.svg';
 import { Route } from 'react-router';
-import { Layout } from './components/Layout';
+import { Layout } from './modules/AuthorizeRoute/Layout';
 import './App.css';
 
 const Home = lazy(() => import('./'))
