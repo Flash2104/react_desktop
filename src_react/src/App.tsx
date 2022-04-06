@@ -1,20 +1,18 @@
 import React, { lazy, Suspense } from 'react';
 import logo from './logo.svg';
 import { Route } from 'react-router';
-import { Layout } from './modules/AuthorizeRoute/Layout';
 import './App.css';
-
-const Home = lazy(() => import('./'))
+import { Layout } from './modules/AuthorizeRoute/Layout/Layout';
+import AuthorizeRoute from './modules/AuthorizeRoute/AuthorizeRoute';
+import { Home } from './modules/AuthorizeRoute/Home/Home';
+import { ApplicationPaths } from './modules/ApiAuthorizationConstants';
+import ApiAuthorizationRoutes from './modules/Authorization/AuthorizationRoutes/ApiAuthorizationRoutes';
 
 function App() {
   return (
     <Layout>
-      <Suspense fallback={<div>Loading...</div>}>
-        
-      </Suspense>
-    <Route exact path='/' component={Home} />
-    <AuthorizeRoute exact path='/' component={Home} />
-    <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
+    <AuthorizeRoute path='/' element={Home} />
+    <Route path={ApplicationPaths.ApiAuthorizationPrefix} element={ApiAuthorizationRoutes} />
   </Layout>
   );
 }

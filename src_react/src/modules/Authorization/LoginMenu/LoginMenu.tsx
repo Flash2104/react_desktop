@@ -1,11 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import authService from './AuthorizeService';
 import { ApplicationPaths } from '../../ApiAuthorizationConstants';
+import authService from '../store/AuthorizeService';
 
-export class LoginMenu extends Component {
-    constructor(props) {
+export class LoginMenu extends Component<{}, {  userName: string | null, isAuthenticated: boolean }> {
+
+    private _subscription: any;
+
+    constructor(props: any) {
         super(props);
 
         this.state = {
@@ -44,7 +47,7 @@ export class LoginMenu extends Component {
         }
     }
 
-    authenticatedView(userName, profilePath, logoutPath) {
+    authenticatedView(userName: any, profilePath: any, logoutPath: any) {
         return (<Fragment>
             <NavItem>
                 <NavLink tag={Link} className="text-dark" to={profilePath}>Hello {userName}</NavLink>
@@ -56,7 +59,7 @@ export class LoginMenu extends Component {
 
     }
 
-    anonymousView(registerPath, loginPath) {
+    anonymousView(registerPath: any, loginPath: any) {
         return (<Fragment>
             <NavItem>
                 <NavLink tag={Link} className="text-dark" to={registerPath}>Register</NavLink>
