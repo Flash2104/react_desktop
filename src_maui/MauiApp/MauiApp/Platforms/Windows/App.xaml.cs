@@ -5,7 +5,6 @@
 namespace MauiApp.WinUI;
 using Microsoft.Maui.Hosting;
 //using Microsoft.UI.Xaml;
-using Microsoft.Maui;
 /// <summary>
 /// Provides application-specific behavior to supplement the default Application class.
 /// </summary>
