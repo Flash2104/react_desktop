@@ -7,3 +7,4 @@ src_maui/MauiBlazor/MauiBlazorApp/MauiBlazorApp/bin/
 src_maui/MauiBlazor/MauiBlazorApp/MauiBlazorApp/obj/
 reactNative/reactNativeDesktop/ios/
 reactNative/reactNativeDesktop/android/
+reactNative/reactNativeDesktop/windows/
