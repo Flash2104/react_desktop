@@ -5,3 +5,5 @@ src_maui/MauiApp/MauiApp/obj/
 src_maui/MauiBlazor/MauiBlazorApp/MauiBlazorApp/.vs/
 src_maui/MauiBlazor/MauiBlazorApp/MauiBlazorApp/bin/
 src_maui/MauiBlazor/MauiBlazorApp/MauiBlazorApp/obj/
+reactNative/reactNativeDesktop/ios/
+reactNative/reactNativeDesktop/android/
