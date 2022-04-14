@@ -11,6 +11,7 @@
 // import {useTranslation} from 'react-i18next';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Appearance,
   Button,
   ColorSchemeName,
@@ -20,6 +21,8 @@ import {
   StyleSheet,
   Switch,
   Text,
+  TouchableHighlight,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
@@ -28,6 +31,7 @@ import {
   Colors,
   LearnMoreLinks,
 } from 'react-native/Libraries/NewAppScreen';
+import HoverableButton from './src/shared/components/HoverableButton';
 
 const Section: React.FC<{
   title: string;
@@ -77,35 +81,17 @@ const App = () => {
   };
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+    backgroundColor: isDarkMode ? Colors.dark : Colors.light,
+    color: isDarkMode ? Colors.light : Colors.dark,
   };
 
-  const handleCountIncrement = () => {
+  const handleCountIncrement = (): void => {
     setCount(count + 1);
   };
 
-  const handleCountReset = () => {
+  const handleCountReset = (): void => {
     setCount(0);
   };
-
-  // const App = () => (
-  //   <Router>
-  //     <Stack key="root">
-  //       <Scene key="login" component={Login} title="Login" />
-  //       <Scene key="register" component={Register} title="Register" />
-  //       <Scene key="home" component={Home} />
-  //     </Stack>
-  //   </Router>
-  // );
-
-  //   // navigate to 'home' as defined in your top-level router
-  // Actions.home(PARAMS);
-
-  // // go back (i.e. pop the current screen off the nav stack)
-  // Actions.pop();
-
-  // // refresh the current Scene with the specified props
-  // Actions.refresh({ param1: 'hello', param2: 'world' });
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -115,39 +101,28 @@ const App = () => {
         {/* <Header /> */}
         <View style={[styles.rootViewContainer, backgroundStyle]}>
           <Switch
-            trackColor={{false: '#767577', true: '#81b0ff'}}
-            // thumbColor={theme === 'light' ? '#f5dd4b' : '#f4f3f4'}
+            trackColor={{false: '#81b0ff', true: '#767577'}}
+            thumbColor={theme === 'light' ? '#f5dd4b' : '#f4f3f4'}
             // ios_backgroundColor="#3e3e3e"
             onValueChange={changeTheme}
-            value={theme === 'light'}
+            value={theme === 'dark'}
           />
           <Section title="Increament example" isDarkMode={theme === 'dark'}>
             Counter: <Text style={styles.highlight}>{count}</Text>
           </Section>
-          <View style={styles.buttonCounterContainer}>
-            <Pressable
-              style={[
-                styles.buttonCountIncr,
-                backgroundStyle,
-                {
-                  borderColor: isDarkMode ? Colors.white : Colors.black,
-                },
-              ]}
+          <View style={styles.buttonContainer}>
+            <HoverableButton
+              isDarkMode={isDarkMode}
+              title='Count++'
+              // isDisabled
               onPress={handleCountIncrement}>
-              <Text
-                style={[
-                  {
-                    color: isDarkMode ? Colors.white : Colors.black,
-                  },
-                ]}>
-                Count++
-              </Text>
-            </Pressable>
-            <Button
-              title="Reset"
-              // color={isDarkMode ? Colors.light : Colors.dark}
-              onPress={handleCountReset}
-            />
+            </HoverableButton>
+            <HoverableButton
+              isDarkMode={isDarkMode}
+              title='Reset'
+              isDisabled
+              onPress={handleCountIncrement}>
+            </HoverableButton>
           </View>
           <LearnMoreLinks />
         </View>
@@ -158,7 +133,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
   rootViewContainer: {
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   sectionContainer: {
     width: 500,
@@ -177,17 +152,18 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
-  buttonCounterContainer: {
-    marginHorizontal: 20,
+  buttonContainer: {
+    // marginHorizontal: 60,
+    alignSelf: 'center',
+    width: 400,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 5,
-    cursor: 'pointer',
+    // padding: 10,
   },
-  buttonCountIncr: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  button: {
+    // alignItems: 'center',
+    // justifyContent: 'center',
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 4,
