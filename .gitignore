@@ -10,3 +10,5 @@ reactNative/reactNativeDesktop/android/
 reactNative/reactNativeDesktop/windows/
 reactNative/reactNativeDesktop/.vscode/
 reactNative/reactNativeDesktop/msbuild.binlog
+node_modules/
+src_electron/dist/
