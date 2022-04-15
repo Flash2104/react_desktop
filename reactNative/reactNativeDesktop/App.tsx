@@ -12,9 +12,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Appearance,
   Button,
   ColorSchemeName,
+  Modal,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -65,6 +67,7 @@ const Section: React.FC<{
 const App = () => {
   const [count, setCount] = useState(0);
   const [theme, setTheme] = useState<ColorSchemeName>();
+  const [modalVisible, setModalVisible] = useState(false);
   const isDarkMode = theme === 'dark';
 
   const themeChangeListener = useCallback(() => {
@@ -83,6 +86,7 @@ const App = () => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.dark : Colors.light,
     color: isDarkMode ? Colors.light : Colors.dark,
+    height: '100%'
   };
 
   const handleCountIncrement = (): void => {
@@ -110,7 +114,7 @@ const App = () => {
           <Section title="Increament example" isDarkMode={theme === 'dark'}>
             Counter: <Text style={styles.highlight}>{count}</Text>
           </Section>
-          <View style={styles.buttonContainer}>
+          <View style={styles.buttonBlock}>
             <HoverableButton
               isDarkMode={isDarkMode}
               title='Count++'
@@ -120,12 +124,42 @@ const App = () => {
             <HoverableButton
               isDarkMode={isDarkMode}
               title='Reset'
-              isDisabled
-              onPress={handleCountIncrement}>
+              // isDisabled
+              onPress={handleCountReset}>
             </HoverableButton>
           </View>
-          <LearnMoreLinks />
+          <View style={styles.buttonBlock}>
+            <Button
+              title="Left button"
+              onPress={() => setModalVisible(true)}
+            />
+            <Button
+              title="Right button"
+              onPress={() => setModalVisible(false)}
+            />
         </View>
+        </View>
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
       </ScrollView>
     </SafeAreaView>
   );
@@ -134,6 +168,7 @@ const App = () => {
 const styles = StyleSheet.create({
   rootViewContainer: {
     // alignItems: 'center',
+    height: '100%'
   },
   sectionContainer: {
     width: 500,
@@ -152,11 +187,10 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
-  buttonContainer: {
+  buttonBlock: {
     // marginHorizontal: 60,
     alignSelf: 'center',
-    width: 400,
-    display: 'flex',
+    width: 300,
     flexDirection: 'row',
     justifyContent: 'space-between',
     // padding: 10,
@@ -170,6 +204,43 @@ const styles = StyleSheet.create({
     elevation: 3,
     borderWidth: 1,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });
 
 export default App;

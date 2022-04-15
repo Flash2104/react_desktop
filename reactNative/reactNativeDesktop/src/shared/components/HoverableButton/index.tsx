@@ -1,7 +1,7 @@
 import React, { Component, ReactElement } from 'react';
-import { View, ActivityIndicator, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import LinearGradient from 'react-native-linear-gradient';
+// import LinearGradient from 'react-native-linear-gradient';
 // import styles from './index.module.scss';
 
 interface Props {
@@ -29,16 +29,17 @@ class HoverableButton extends Component<Props> {
 
     buttonTitle = (): ReactElement => {
       return (
-        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
+        // <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
         <Text
         style={[
+          styles.customButtonText,
           {
             color: this.props.isDarkMode ? Colors.white : Colors.black,
           },
         ]}>
         {this.props.title}
       </Text>
-      </LinearGradient>
+      // </LinearGradient>
       );
     }
 
@@ -59,19 +60,33 @@ class HoverableButton extends Component<Props> {
 
     render(): ReactElement {
         return (
+            // <TouchableHighlight
+            //     style={[
+            //     styles.button,
+            //     {
+            //       borderColor: this._borderColor,
+            //       backgroundColor: this._backgroundColor,
+            //       // shadowColor: this._backgroundColor,
+            //     },
+            //   ]}
+            //   underlayColor={this._underlayColor}
+            //   disabled={this.props.isDisabled}
+            //   onPress={this.props.onPress}
+            //   >
             <TouchableHighlight
-                style={[
-                styles.button,
-                {
-                  borderColor: this._borderColor,
-                  backgroundColor: this._backgroundColor,
-                  // shadowColor: this._backgroundColor,
-                },
-              ]}
-              underlayColor={this._underlayColor}
-              disabled={this.props.isDisabled}
-              onPress={this.props.onPress}
-              >
+        // activeOpacity={0.6}
+        onPress={this.props.onPress}
+        disabled={this.props.isDisabled}
+        underlayColor={this._underlayColor}
+        style={[
+              styles.button,
+              {
+                borderColor: this._borderColor,
+                backgroundColor: this._backgroundColor,
+                // shadowColor: this._backgroundColor,
+              },
+            ]}
+    >
                 {
                 this.props.isDisabled 
                 ? <>
@@ -83,7 +98,8 @@ class HoverableButton extends Component<Props> {
                 :
                 this.buttonTitle()
               }
-            </TouchableHighlight>
+              </TouchableHighlight>
+            // </TouchableHighlight>
         );
     }
 
@@ -108,6 +124,19 @@ const styles = StyleSheet.create({
       paddingRight: 15,
       borderRadius: 5
     },
+    customButton: {
+      elevation: 10,
+      display: 'flex',
+      flexDirection: 'row',
+      borderRadius: 15,
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+  },
+  customButtonText: {
+      fontSize: 20,
+      fontWeight: "bold",
+      alignSelf: "center",
+  },
   }); 
 
   export default HoverableButton;
