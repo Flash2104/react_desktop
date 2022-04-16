@@ -26,7 +26,6 @@
   "scripts": {
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
-    "electron-start": "set ELECTRON_START_URL=http://localhost:3000 && electron .",
     "electron-build": "electron-builder",
     "test": "react-scripts test",
     "electron:start": "concurrently -k \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electronmon .\"",
@@ -58,7 +57,8 @@
     "electron": "^18.0.4",
     "electron-builder": "^23.0.3",
     "electronmon": "^2.0.2",
-    "wait-on": "^6.0.1"
+    "wait-on": "^6.0.1",
+    "yarn": "^1.22.18"
   },
   "config": {
     "forge": {

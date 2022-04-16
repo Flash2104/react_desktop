@@ -4,7 +4,11 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 process.once('loaded', () => {
   contextBridge.exposeInMainWorld('ariNote', {
-    rpc: (op: { type: 'query' | 'mutation' | 'subscription'; input: unknown; path: string }) => ipcRenderer.invoke('rpc', op),
+    rpc: (op: { 
+      type: 'query' | 'mutation' | 'subscription'; 
+      input: unknown; 
+      path: string 
+    }) => ipcRenderer.invoke('rpc', op),
     receive: (channel: string, func: Function) => {
       const validChannels = ['app'];
       if (validChannels.includes(channel)) {

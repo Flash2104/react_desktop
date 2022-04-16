@@ -1,6 +1,6 @@
 // Module to control the application lifecycle and the native browser window.
 const { app, BrowserWindow, ipcMain } = require('electron');
-const { channels } = require('../src/shared/constants');
+const { channels } = require('../src/shared/channels');
 const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
@@ -21,7 +21,7 @@ function createWindow() {
   // In production, set the initial browser path to the local bundle generated
   // by the Create React App build process.
   // In development, set it to localhost to allow live/hot-reloading.
-  const appURL = app.isPackaged
+  const appURL = !isDev
     ? url.format({
         pathname: path.join(__dirname, 'index.html'),
         protocol: 'file:',
@@ -31,7 +31,7 @@ function createWindow() {
   mainWindow.loadURL(appURL);
 
   // Automatically open Chrome's DevTools in development mode.
-  if (!app.isPackaged) {
+  if (isDev) {
     mainWindow.webContents.openDevTools();
   }
 }
@@ -92,3 +92,23 @@ app.on('web-contents-created', (event, contents) => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+
+// handle tRPC requests coming from the renderer process
+ipcMain.handle("rpc", async (event, req: IpcRpcRequest) => {
+  // console.log(arg)
+
+  const output = await resolveIPCResponse({
+      batching: {
+          enabled: !!req.isBatch
+      },
+      req: req,
+      router: appRouter,
+      createContext: () => createContext({event, req})
+  })
+
+  return {
+      ...output,
+      id: req.id
+  };
+})
