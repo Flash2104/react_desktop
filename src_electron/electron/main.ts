@@ -1,6 +1,6 @@
 // Module to control the application lifecycle and the native browser window.
 const { app, BrowserWindow, ipcMain } = require('electron');
-const { channels } = require('../src/shared/channels');
+// const { channels } = require('../src/shared/channels');
 const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
@@ -93,22 +93,21 @@ app.on('web-contents-created', (event, contents) => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-
 // handle tRPC requests coming from the renderer process
-ipcMain.handle("rpc", async (event, req: IpcRpcRequest) => {
-  // console.log(arg)
+// ipcMain.handle('rpc', async (event, req: IpcRpcRequest) => {
+//   // console.log(arg)
 
-  const output = await resolveIPCResponse({
-      batching: {
-          enabled: !!req.isBatch
-      },
-      req: req,
-      router: appRouter,
-      createContext: () => createContext({event, req})
-  })
+//   const output = await resolveIPCResponse({
+//     batching: {
+//       enabled: !!req.isBatch
+//     },
+//     req: req,
+//     router: appRouter,
+//     createContext: () => createContext({ event, req })
+//   });
 
-  return {
-      ...output,
-      id: req.id
-  };
-})
+//   return {
+//     ...output,
+//     id: req.id
+//   };
+// });
