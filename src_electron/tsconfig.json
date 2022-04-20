@@ -20,10 +20,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": [
-      "app/src/typings"
+      "./app/src/typings"
     ]
   },
   "include": [
-    "src"
-  ]
+    "app"
+  ],
+  "exclude": ["node_modules", "dist", "out", ".webpack", "webpack.*"]
 }

@@ -3,41 +3,36 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
-  "main": "electron/main.ts",
+  "bin": "./bin/setup.js",
+  "main": ".webpack/main",
   "author": "Finflow Solutions",
   "description": "FFCryptoCloud client",
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.0.1",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^16.11.27",
-    "@types/react": "^18.0.5",
-    "@types/react-dom": "^18.0.1",
-    "cross-env": "^7.0.3",
-    "electron-is-dev": "^2.0.0",
-    "electron-squirrel-startup": "^1.0.0",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.6.2",
     "i18next": "^21.6.16",
     "i18next-electron-fs-backend": "^2.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.1",
-    "typescript": "^4.6.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "app-start": "concurrently -k \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electronmon .\"",
-    "react-start": "dotenv -e .env.dev react-scripts start",
-    "react-build-dev": "dotenv -e .env.dev react-scripts build",
-    "react-build-prod": "dotenv -e .env.prod react-scripts build",
+    "react-start": "cd app/src && react-scripts start",
+    "react-build": "react-scripts build",
     "electron-build": "electron-builder",
     "test": "mocha",
-    "build-mac-dev": "yarn react-build-dev && electron-builder -m -c.extraMetadata.main=build/electron.js",
-    "build-mac-prod": "yarn react-build-prod && electron-builder -m -c.extraMetadata.main=build/electron.js",
-    "build-win-dev": "yarn react-build-dev && electron-builder -w -c.extraMetadata.main=build/electron.js",
-    "build-win-prod": "yarn react-build-prod && electron-builder -w -c.extraMetadata.main=build/electron.js",
-    "build-linux-dev": "yarn react-build-dev && electron-builder -l -c.extraMetadata.main=build/electron.js",
-    "build-linux-prod": "yarn react-build-prod && electron-builder -l -c.extraMetadata.main=build/electron.js"
+    "build-mac": "yarn react-build && electron-builder -m",
+    "build-win": "yarn react-build && electron-builder -w",
+    "build-linux": "yarn react-build && electron-builder -l",
+    "auto-changelog": "auto-changelog --hide-credit --breaking-pattern \"breaking:\"",
+    "gen-changelog": "npm run auto-changelog && git add CHANGELOG.md && git commit -m \"doc: change log\"",
+    "start": "electron-forge start --inspect-electron",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publishOnly": "electron-forge publish",
+    "postpublish": "npm-run-all -s tag gen-changelog"
   },
   "eslintConfig": {
     "extends": [
@@ -59,45 +54,57 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "@electron-forge/plugin-webpack": "^6.0.0-beta.63",
+    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.0.1",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.25",
+    "@types/react": "^18.0.5",
+    "@types/react-dom": "^18.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "@typescript-eslint/parser": "^5.20.0",
+    "auto-changelog": "^2.4.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.5",
     "concurrently": "^7.1.0",
-    "dotenv-cli": "^5.1.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.1",
     "electron": "^18.0.4",
     "electron-builder": "^23.0.3",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-is-dev": "^2.0.0",
+    "electron-squirrel-startup": "^1.0.0",
     "electronmon": "^2.0.2",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "file-loader": "^6.2.0",
+    "node-loader": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.2.8",
+    "typescript": "^4.6.3",
+    "url-loader": "^4.1.1",
     "wait-on": "^6.0.1",
     "yarn": "^1.22.18"
   },
   "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "src_electron"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
+    "forge": "./forge.config.js"
   },
   "build": {
     "appId": "com.electron.ff-crypto",
     "productName": "FFCrypto",
     "extends": null,
+    "extraMetadata": {
+      "main": "build/electron.js"
+    },
     "files": [
       "build/**/*",
       "node_modules/**/*"
