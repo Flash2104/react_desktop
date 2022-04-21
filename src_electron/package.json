@@ -3,36 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "./",
-  "bin": "./bin/setup.js",
-  "main": ".webpack/main",
+  "main": "src/build/electron/main.js",
   "author": "Finflow Solutions",
   "description": "FFCryptoCloud client",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.6.2",
+    "@trpc/server": "^9.22.0",
+    "@types/electron-devtools-installer": "^2.2.2",
+    "electron-reload": "^2.0.0-alpha.1",
     "i18next": "^21.6.16",
-    "i18next-electron-fs-backend": "^2.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "react-start": "cd app/src && react-scripts start",
+    "react-start": "react-scripts start",
     "react-build": "react-scripts build",
     "electron-build": "electron-builder",
-    "test": "mocha",
     "build-mac": "yarn react-build && electron-builder -m",
     "build-win": "yarn react-build && electron-builder -w",
     "build-linux": "yarn react-build && electron-builder -l",
     "auto-changelog": "auto-changelog --hide-credit --breaking-pattern \"breaking:\"",
     "gen-changelog": "npm run auto-changelog && git add CHANGELOG.md && git commit -m \"doc: change log\"",
-    "start": "electron-forge start --inspect-electron",
+    "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publishOnly": "electron-forge publish",
-    "postpublish": "npm-run-all -s tag gen-changelog"
+    "postpublish": "npm-run-all -s tag gen-changelog",
+    "dev": "concurrently \"cross-env BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && tsc -p src/electron -w\" \"wait-on http://localhost:3000 && tsc -p src/electron && electronmon .\""
   },
   "eslintConfig": {
     "extends": [
@@ -71,8 +72,9 @@
     "concurrently": "^7.1.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
-    "electron": "^18.0.4",
+    "electron": "18.1.0",
     "electron-builder": "^23.0.3",
+    "electron-compile": "^6.4.4",
     "electron-devtools-installer": "^3.2.0",
     "electron-is-dev": "^2.0.0",
     "electron-squirrel-startup": "^1.0.0",
@@ -90,6 +92,7 @@
     "npm-run-all": "^4.1.5",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.2.8",
+    "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
     "url-loader": "^4.1.1",
     "wait-on": "^6.0.1",
@@ -99,27 +102,40 @@
     "forge": "./forge.config.js"
   },
   "build": {
-    "appId": "com.electron.ff-crypto",
-    "productName": "FFCrypto",
+    "productName": "YourProductName",
+    "appId": "com.yourcompany|electron.yourproductname",
     "extends": null,
+    "electronCompile": true,
+    "directories": {
+      "buildResources": "assets"
+    },
     "extraMetadata": {
-      "main": "build/electron.js"
+      "main": "build/main.js"
     },
     "files": [
+      "dist/**/*",
       "build/**/*",
-      "node_modules/**/*"
+      "src/electron/**/*",
+      "src/localization/!(locales)"
     ],
-    "directories": {
-      "buildResources": "public"
-    },
-    "mac": {
-      "target": "dmg"
-    },
+    "extraFiles": [
+      "app/localization/locales/**/*",
+      "license.data",
+      "public.key"
+    ],
     "win": {
-      "target": "nsis"
+      "target": [
+        "nsis",
+        "msi"
+      ]
     },
     "linux": {
-      "target": "deb"
+      "target": [
+        "deb",
+        "rpm",
+        "snap",
+        "AppImage"
+      ]
     }
   }
 }
