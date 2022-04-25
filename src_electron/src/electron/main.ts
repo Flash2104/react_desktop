@@ -1,28 +1,7 @@
 import { app, BrowserWindow } from "electron";
-import installExtension, {
-  REACT_DEVELOPER_TOOLS,
-} from "electron-devtools-installer";
 import * as isDev from "electron-is-dev";
 import * as path from "path";
-// import isDev from "electron-is-dev";
-// import path from "path";
 import * as url from "url";
-// const { app, BrowserWindow } = require("electron");
-// const {
-//   default: installExtension,
-//   REDUX_DEVTOOLS,
-//   REACT_DEVELOPER_TOOLS,
-// } = require("electron-devtools-installer");
-// const isDev = require("electron-is-dev");
-// const i18nextBackend = require("i18next-electron-fs-backend");
-// const i18nextMainBackend = require("../localization/i18n.mainconfig");
-// const path = require("path");
-// const url = require("url");
-
-// declare global {
-//   const MAIN_WINDOW_WEBPACK_ENTRY: string;
-//   const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
-// }
 let mainWindow = null;
 // Create the native browser window.
 
@@ -64,32 +43,12 @@ async function createWindow() {
   });
 }
 
-// Setup a local proxy to adjust the paths of requested files when loading
-// them from the local production bundle (e.g.: local fonts, etc...).
-// function setupLocalFilesNormalizerProxy() {
-//   protocol.registerHttpProtocol(
-//     "file",
-//     (request, callback) => {
-//       const url = request.url.substr(8);
-//       callback({ path: path.normalize(`${__dirname}/${url}`) });
-//     },
-//     (error) => {
-//       if (error) console.error("Failed to register protocol");
-//     }
-//   );
-// }
-
 // This method will be called when Electron has finished its initialization and
 // is ready to create the browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
-  if (isDev) {
-    installExtension(REACT_DEVELOPER_TOOLS, {
-      loadExtensionOptions: { allowFileAccess: true },
-      forceDownload: false,
-    });
-  }
+
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
