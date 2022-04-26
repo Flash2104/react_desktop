@@ -25,10 +25,7 @@
   },
   "ignorePatterns": [
     "dev-scripts",
-    "src/electron",
-    "webpack.config.js",
-    "webpack.development.js",
-    "webpack.production.js",
+    "app/electron",
     "forge.config.js",
     "tsconfig.json",
     "webpack.main.config.js",

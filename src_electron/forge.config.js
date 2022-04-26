@@ -2,10 +2,12 @@ module.exports = {
   packagerConfig: {},
   makers: [
     {
-      name: "@electron-forge/maker-squirrel",
+      name: "@electron-forge/maker-wix",
       config: {
-        name: "electron-ts-react",
-      },
+        ui: {
+          "chooseDirectory": true
+        }
+      }
     },
     {
       name: "@electron-forge/maker-zip",
