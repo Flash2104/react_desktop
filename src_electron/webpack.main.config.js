@@ -10,12 +10,11 @@ module.exports = {
   module: {
     rules: require("./webpack.rules")
   },
-  // resolve: {
-  //   modules: ["node_modules", path.resolve(__dirname)],
-  //   modules: ["menu", path.resolve(__dirname, "app", "electron", "menu")],
-  //   extensions: [".js", ".ts"],
-  //   alias: {
-  //     "menu": path.resolve(__dirname, "app", "electron", "menu")
-  //   }
-  // }
+  resolve: {
+    // modules: [...],
+    fallback: {
+      "fs": false,
+      "path": require.resolve('path-browserify'),
+    } 
+  },
 };

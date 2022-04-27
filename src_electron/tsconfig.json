@@ -18,11 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "baseUrl": "app/src",
     "jsx": "react-jsx",
     "types": [
-      "src/typings",
+      "app/src/typings",
     ]
   },
-  "include": ["src"],
+  "include": ["app/src", ".eslintrc.json"],
   "exclude": ["node_modules", "dist", "out", ".webpack", "webpack.*"]
 }

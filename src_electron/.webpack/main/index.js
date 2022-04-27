@@ -124,9 +124,10 @@ async function createWindow() {
     // Set the path of an additional "preload" script that can be used to
     // communicate between node-land and browser-land.
     webPreferences: {
-      preload: 'C:\\my\\projects\\react_desktop\\src_electron\\.webpack\\renderer\\main_window\\preload.js',
+      preload: 'I:\\Projects\\reactDesktop\\src_electron\\.webpack\\renderer\\main_window\\preload.js',
       // path.join(__dirname, "preload.js"),
-      devTools: electron_is_dev__WEBPACK_IMPORTED_MODULE_1__
+      devTools: electron_is_dev__WEBPACK_IMPORTED_MODULE_1__,
+      nodeIntegration: true
     }
   });
   mainWindow.loadURL('http://localhost:3000/main_window'); // Automatically open Chrome's DevTools in development mode.
@@ -177,7 +178,15 @@ electron__WEBPACK_IMPORTED_MODULE_0__.app.on("web-contents-created", (event, con
       event.preventDefault();
     }
   });
-});
+}); // const i18n = require('../configs/i18next.config');
+// i18n.on('loaded', (loaded) => {
+//   i18n.changeLanguage('en');
+//   i18n.off('loaded');
+// });
+// const menuFactoryService = require('./menu/menu-factory');
+// i18n.on('languageChanged', (lng) => {
+//   menuFactoryService.buildMenu(app, mainWindow);
+// });
 })();
 
 module.exports = __webpack_exports__;

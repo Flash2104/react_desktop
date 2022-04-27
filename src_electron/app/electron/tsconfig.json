@@ -3,11 +3,13 @@
     "target": "es5",
     "module": "commonjs",
     "sourceMap": true,
-    "strict": true,
+    "strict": false,
     "outDir": "../../build/",
     "rootDir": "../",
     "esModuleInterop": true,
     "noEmitOnError": true,
+    "strictNullChecks": false,
+    "allowUnusedLabels": true,
     "typeRoots": [
       "node_modules/@types"
     ]

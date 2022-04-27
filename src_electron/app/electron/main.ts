@@ -1,6 +1,7 @@
-import { app, BrowserWindow } from "electron";
+import { MenuFactoryService } from './menu/menu-factory';
+import { app, BrowserWindow, Menu } from "electron";
 import * as isDev from "electron-is-dev";
-let mainWindow = null;
+let mainWindow: BrowserWindow | null = null;
 // Create the native browser window.
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -14,6 +15,7 @@ async function createWindow() {
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY, // path.join(__dirname, "preload.js"),
       devTools: isDev,
+      nodeIntegration: true
     },
   });
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
@@ -68,3 +70,13 @@ app.on("web-contents-created", (event, contents) => {
     }
   });
 });
+
+// const i18n = require('../configs/i18next.config');
+// i18n.on('loaded', (loaded) => {
+//   i18n.changeLanguage('en');
+//   i18n.off('loaded');
+// });
+// const menuFactoryService = require('./menu/menu-factory');
+// i18n.on('languageChanged', (lng) => {
+//   menuFactoryService.buildMenu(app, mainWindow);
+// });
