@@ -8,10 +8,11 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import log from 'electron-log';
+import { autoUpdater } from 'electron-updater';
+import path from 'path';
+import i18n from '../localization/i18next.backend';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -99,7 +100,22 @@ const createWindow = async () => {
   });
 
   const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  i18n.on('initialized', (loaded) => {
+    console.log('i18n loaded', loaded);
+    i18n.changeLanguage('ru');
+    i18n.off('initialized');
+  });
+
+  i18n.on('languageChanged', (lng) => {
+    if (i18n.isInitialized) {
+      menuBuilder.buildMenu(i18n);
+    }
+    // win.webContents.send('language-changed', {
+    //   language: lng,
+    //   namespace: config.namespace,
+    //   resource: i18n.getResourceBundle(lng, config.namespace),
+    // });
+  });
 
   // Open urls in the user's browser
   mainWindow.webContents.setWindowOpenHandler((edata) => {

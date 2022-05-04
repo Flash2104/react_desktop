@@ -1,7 +1,7 @@
 const i18n = require('i18next');
 
 const reactI18nextModule = require('react-i18next').reactI18nextModule;
-const config = require('../configs/app.config');
+const config = require('./app.config');
 
 const i18nextOptions = {
   interpolation: {

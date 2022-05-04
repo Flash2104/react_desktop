@@ -1,0 +1,15 @@
+{
+  "menu": {
+    "file": "Datei",
+    "view": "Sicht",
+    "reload": "Neu laden",
+    "dev-tools": "Entwicklerwerkzeuge",
+    "fullscreen": "Ganzer Bildschirm",
+    "language": "Sprache",
+    "window": "Fenster",
+    "minimize": "Minimieren",
+    "close": "Schließen",
+    "help": "Hilfe",
+    "support": "Unterstützung"
+  }
+}

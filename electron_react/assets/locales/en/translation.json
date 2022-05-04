@@ -1,0 +1,15 @@
+{
+  "menu": {
+    "file": "File",
+    "view": "View",
+    "reload": "Reload",
+    "dev-tools": "Toggle Developer Tools",
+    "fullscreen": "Toggle Fullscreen",
+    "language": "Language",
+    "window": "Window",
+    "minimize": "Minimize",
+    "close": "Close",
+    "help": "Help",
+    "support": "Support"
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "name": "electron-react-boilerplate",
-  "description": "A foundation for scalable desktop apps",
+  "name": "ff-crypto-wallet",
+  "description": "FinflowSolutions Crypto Wallet",
   "scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
@@ -31,7 +31,7 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
+    "productName": "FF Crypto Wallet",
     "appId": "org.erb.ElectronReact",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
@@ -90,35 +90,23 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "k.khoruzhenko",
+      "repo": "k.khoruzhenko"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
-  },
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "name": "K.Khoruzhenko@FinflowSolutions",
+    "email": "k.khoruzhenko@finflowsoft.com",
+    "url": "https://github.com/Flash2104"
   },
   "contributors": [
     {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
-    },
-    {
-      "name": "John Tran",
-      "email": "jptran318@gmail.com",
-      "url": "https://github.com/jooohhn"
+      "name": "Kirill Khoruzhenko",
+      "email": "k.khoruzhenko@finflowsoft.com",
+      "url": "https://github.com/Flash2104"
     }
   ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
-  },
   "keywords": [
     "electron",
     "boilerplate",
@@ -130,7 +118,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "./",
   "jest": {
     "testURL": "http://localhost/",
     "testEnvironment": "jsdom",
@@ -164,6 +152,7 @@
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.0",
+    "@types/i18next-fs-backend": "^1.1.2",
     "@types/jest": "^27.4.1",
     "@types/node": "17.0.23",
     "@types/react": "^17.0.43",
@@ -235,6 +224,7 @@
     "history": "^5.3.0",
     "i18next": "^21.6.16",
     "i18next-electron-fs-backend": "^2.0.0",
+    "i18next-fs-backend": "^1.1.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-i18next": "^11.16.7",
@@ -244,10 +234,14 @@
     "node": ">=14.x",
     "npm": ">=7.x"
   },
-  "collective": {
-    "url": "https://opencollective.com/electron-react-boilerplate-594"
+  "browserslist": {
+    "production": [
+      "last 1 electron version"
+    ],
+    "development": [
+      "last 1 electron version"
+    ]
   },
-  "browserslist": [],
   "prettier": {
     "overrides": [
       {
@@ -260,6 +254,7 @@
         }
       }
     ],
-    "singleQuote": true
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
