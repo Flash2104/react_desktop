@@ -11,5 +11,8 @@
     "close": "Schließen",
     "help": "Hilfe",
     "support": "Unterstützung"
+  },
+  "header": {
+    "greeting-guest": "Willkommener Gast!"
   }
 }

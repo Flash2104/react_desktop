@@ -13,6 +13,7 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 import i18n from '../localization/i18next.backend';
+import { ILanguageChanged } from '../localization/i18next.client';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -79,6 +80,8 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+      nodeIntegration: true,
+      contextIsolation: true,
     },
   });
 
@@ -109,12 +112,12 @@ const createWindow = async () => {
   i18n.on('languageChanged', (lng) => {
     if (i18n.isInitialized) {
       menuBuilder.buildMenu(i18n);
+      mainWindow?.webContents.send('language-changed', {
+        language: lng,
+        namespace: 'translation',
+        resource: i18n.getResourceBundle(lng, 'translation'),
+      } as ILanguageChanged);
     }
-    // win.webContents.send('language-changed', {
-    //   language: lng,
-    //   namespace: config.namespace,
-    //   resource: i18n.getResourceBundle(lng, config.namespace),
-    // });
   });
 
   // Open urls in the user's browser
@@ -151,3 +154,14 @@ app
     });
   })
   .catch(console.log);
+
+// ipcMain.on('get-initial-translation', (event, arg) => {
+//   i18n.loadLanguages('en', (err, t) => {
+//     const initial = {
+//       en: {
+//         translation: i18n.getResourceBundle('en', 'translation'),
+//       },
+//     };
+//     event.returnValue = initial;
+//   });
+// });

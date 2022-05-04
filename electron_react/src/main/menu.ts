@@ -6,6 +6,7 @@ import {
 } from 'electron';
 import { i18n } from 'i18next';
 import { LocaleHelper } from '../localization/locale.helper';
+// import { changeLanguageRequest } from './preload';
 
 interface DarwinMenuItemConstructorOptions extends MenuItemConstructorOptions {
   selector?: string;
@@ -54,7 +55,7 @@ export default class MenuBuilder {
   }
 
   buildLanguageMenu = (i18next: i18n): MenuItemConstructorOptions[] => {
-    const languageMap = LocaleHelper.GetLanguages();
+    const languageMap = LocaleHelper.getLanguages();
     const languages: MenuItemConstructorOptions[] = [];
     languageMap.forEach((value, key) => {
       if (!value.disabled) {
@@ -63,7 +64,13 @@ export default class MenuBuilder {
           type: 'radio',
           checked: i18next.language === key,
           click: () => {
+            // Solely within the top menu
             i18next.changeLanguage(key);
+
+            // Between renderer > main process
+            this.mainWindow.webContents.send('ChangeLanguage-Request', {
+              lng: key,
+            });
           },
         });
       }

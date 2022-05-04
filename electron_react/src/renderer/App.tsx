@@ -1,14 +1,16 @@
+import { useTranslation } from 'react-i18next';
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
 
 const Hello = () => {
+  const [t] = useTranslation();
   return (
     <div>
       <div className="Hello">
         <img width="200px" alt="icon" src={icon} />
       </div>
-      <h1>electron-react-boilerplate</h1>
+      <h1>{t('header.greeting-guest')}</h1>
       <div className="Hello">
         <a
           href="https://electron-react-boilerplate.js.org/"
@@ -41,10 +43,8 @@ const Hello = () => {
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Hello />} />
+    </Routes>
   );
 }

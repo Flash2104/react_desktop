@@ -11,5 +11,8 @@
     "close": "Close",
     "help": "Help",
     "support": "Support"
+  },
+  "header": {
+    "greeting-guest": "Welcome Guest!"
   }
 }

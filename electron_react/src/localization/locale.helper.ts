@@ -1,5 +1,4 @@
 import { InitOptions } from 'i18next';
-import path from 'path';
 
 export interface ILanguageEntity {
   localized: string;
@@ -14,26 +13,45 @@ export abstract class LocaleHelper {
     ['de', { english: 'Deutsche', localized: 'German' }],
   ]);
 
-  public static GetLanguages(): Map<string, ILanguageEntity> {
+  public static getLanguages(): Map<string, ILanguageEntity> {
     return LocaleHelper.languageMap;
   }
 
-  public static GetBaseOptions(): InitOptions {
+  public static getClientI18NextOptions(): InitOptions {
     // On Mac, the folder for resources isn't
     // in the same directory as Linux/Windows;
     // https://www.electron.build/configuration/contents#extrafiles
-    const isMac = process.platform === 'darwin';
-    const isDev = process.env.NODE_ENV === 'development';
-    let prependPath = !isDev ? process.resourcesPath : '.';
-    if (isMac && !isDev) {
-      prependPath = path.join(process.resourcesPath, '..');
-    }
-
+    // const isMac = window.electron.platform === 'darwin'; // process.platform === 'darwin';
+    const isDev = window.electron.environment === 'development'; // process.env.NODE_ENV === 'development';
+    const prependPath = !isDev ? window.electron.resourcesPath : '.';
     return {
+      ...LocaleHelper.getBaseOptions(),
+      backend: {
+        loadPath: `${prependPath}/assets/locales/{{lng}}/{{ns}}.json`,
+        addPath: `${prependPath}/assets/locales/{{lng}}/{{ns}}.missing.json`,
+        ipcRenderer: window.electron.i18next,
+      },
+      interpolation: { escapeValue: false }, // React already does escaping
+      react: {
+        useSuspense: false,
+      },
+    };
+  }
+
+  public static getBackendI18NextOptions(): InitOptions {
+    const isDev = process.env.NODE_ENV === 'development';
+    const prependPath = !isDev ? process.resourcesPath : '.';
+    return {
+      ...LocaleHelper.getBaseOptions(),
       backend: {
         loadPath: `${prependPath}/assets/locales/{{lng}}/{{ns}}.json`,
         addPath: `${prependPath}/assets/locales/{{lng}}/{{ns}}.missing.json`,
       },
+    };
+  }
+
+  private static getBaseOptions(): InitOptions {
+    return {
       saveMissing: true,
       saveMissingTo: 'current',
       lng: 'en',
