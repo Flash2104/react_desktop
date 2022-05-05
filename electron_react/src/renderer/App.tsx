@@ -4,7 +4,8 @@ import icon from '../../assets/icon.svg';
 import './App.css';
 
 const Hello = () => {
-  const [t] = useTranslation();
+  const [t, i18n] = useTranslation();
+  console.log('i18n:', i18n);
   return (
     <div>
       <div className="Hello">

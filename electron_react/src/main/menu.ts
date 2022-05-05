@@ -1,5 +1,6 @@
 import {
   BrowserWindow,
+  ipcRenderer,
   Menu,
   MenuItemConstructorOptions,
   shell,
@@ -66,11 +67,6 @@ export default class MenuBuilder {
           click: () => {
             // Solely within the top menu
             i18next.changeLanguage(key);
-
-            // Between renderer > main process
-            this.mainWindow.webContents.send('ChangeLanguage-Request', {
-              lng: key,
-            });
           },
         });
       }

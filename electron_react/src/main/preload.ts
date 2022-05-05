@@ -1,12 +1,17 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { ILanguageChanged } from 'localization/i18next.client';
 import path from 'path';
+import { changeLanguageRequest, i18nextNamespace } from './util';
+// import { changeLanguageRequest, i18nextNamespace } from './main';
 
 export interface IElectronApi {
   platform: NodeJS.Platform;
   environment: 'development' | 'production';
   resourcesPath: string;
   i18next: {
-    onLanguageChange: (func: (lng: string) => void) => void;
+    send: (channel: string, data: any) => void;
+    onReceive: (channel: string, func: (args: any) => void) => void;
+    onLanguageChange: (func: (message: ILanguageChanged) => void) => void;
   };
   ipcRenderer: {
     myPing(): void;
@@ -25,8 +30,27 @@ contextBridge.exposeInMainWorld('electron', <IElectronApi>{
   environment: process.env.NODE_ENV,
   resourcesPath: path.join(process.resourcesPath, '..'),
   i18next: {
-    onLanguageChange(func: (lng: string) => void) {
-      ipcRenderer.on('ChangeLanguage-Request', (event, args) => func(args.lng));
+    // send: (channel: string, data: any) => {
+    //   const validChannels = [readFileRequest, writeFileRequest];
+    //   if (validChannels.includes(channel)) {
+    //     ipcRenderer.send(channel, data);
+    //   }
+    // },
+    // onReceive: (channel: string, func: (args: any) => void) => {
+    //   const validChannels = [readFileResponse, writeFileResponse];
+    //   if (validChannels.includes(channel)) {
+    //     // Deliberately strip event as it includes "sender"
+    //     ipcRenderer.on(channel, (event, args) => func(args));
+    //   }
+    // },
+    onLanguageChange(func: (message: ILanguageChanged) => void) {
+      ipcRenderer.on(changeLanguageRequest, (event, args: ILanguageChanged) =>
+        func({
+          language: args.language,
+          namespace: args.namespace,
+          resource: args.resource,
+        })
+      );
     },
   },
   ipcRenderer: {

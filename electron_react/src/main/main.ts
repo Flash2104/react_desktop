@@ -15,7 +15,12 @@ import path from 'path';
 import i18n from '../localization/i18next.backend';
 import { ILanguageChanged } from '../localization/i18next.client';
 import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
+// import { i18nextNamespace } from './preload';
+import {
+  changeLanguageRequest,
+  i18nextNamespace,
+  resolveHtmlPath,
+} from './util';
 
 export default class AppUpdater {
   constructor() {
@@ -80,8 +85,6 @@ const createWindow = async () => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
-      nodeIntegration: true,
-      contextIsolation: true,
     },
   });
 
@@ -105,17 +108,17 @@ const createWindow = async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   i18n.on('initialized', (loaded) => {
     console.log('i18n loaded', loaded);
-    i18n.changeLanguage('ru');
+    i18n.changeLanguage('en');
     i18n.off('initialized');
   });
 
   i18n.on('languageChanged', (lng) => {
     if (i18n.isInitialized) {
       menuBuilder.buildMenu(i18n);
-      mainWindow?.webContents.send('language-changed', {
+      mainWindow?.webContents.send(changeLanguageRequest, {
         language: lng,
-        namespace: 'translation',
-        resource: i18n.getResourceBundle(lng, 'translation'),
+        namespace: i18nextNamespace,
+        resource: i18n.getResourceBundle(lng, i18nextNamespace),
       } as ILanguageChanged);
     }
   });

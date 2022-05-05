@@ -1,7 +1,7 @@
 // import { ipcRenderer } from 'electron';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, useSSR } from 'react-i18next';
 import { HashRouter } from 'react-router-dom';
 import i18n from '../localization/i18next.client';
 import App from './App';
@@ -37,8 +37,8 @@ if (container != null) {
 }
 
 // calling IPC exposed from preload script
-window.electron.ipcRenderer.once('ipc-example', (arg) => {
-  // eslint-disable-next-line no-console
-  console.log(arg);
-});
-window.electron.ipcRenderer.myPing();
+// window.electron.ipcRenderer.once('ipc-example', (arg) => {
+//   // eslint-disable-next-line no-console
+//   console.log(arg);
+// });
+// window.electron.ipcRenderer.myPing();

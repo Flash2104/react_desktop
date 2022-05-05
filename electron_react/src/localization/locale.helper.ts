@@ -1,4 +1,5 @@
 import { InitOptions } from 'i18next';
+import en from '../../assets/locales/en/translation.json';
 
 export interface ILanguageEntity {
   localized: string;
@@ -18,20 +19,10 @@ export abstract class LocaleHelper {
   }
 
   public static getClientI18NextOptions(): InitOptions {
-    // On Mac, the folder for resources isn't
-    // in the same directory as Linux/Windows;
-    // https://www.electron.build/configuration/contents#extrafiles
-    // const isMac = window.electron.platform === 'darwin'; // process.platform === 'darwin';
-    const isDev = window.electron.environment === 'development'; // process.env.NODE_ENV === 'development';
-    const prependPath = !isDev ? window.electron.resourcesPath : '.';
     return {
       ...LocaleHelper.getBaseOptions(),
-      backend: {
-        loadPath: `${prependPath}/assets/locales/{{lng}}/{{ns}}.json`,
-        addPath: `${prependPath}/assets/locales/{{lng}}/{{ns}}.missing.json`,
-        ipcRenderer: window.electron.i18next,
-      },
       interpolation: { escapeValue: false }, // React already does escaping
+      resources: { en: { translation: en } }, // resource for initial language
       react: {
         useSuspense: false,
       },

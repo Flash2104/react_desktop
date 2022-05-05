@@ -4,30 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { I18nextProvider } from "react-i18next";
-import { ipcRenderer } from "electron";
 import i18next from "i18next";
 import { HashRouter } from "react-router-dom";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
 
-// i18next;
-// ipcRenderer.on("language-changed", (event, message) => {
-//   // if (!i18next.hasResourceBundle(message.language, message.namespace)) {
-//   //   i18next.addResourceBundle(
-//   //     message.language,
-//   //     message.namespace,
-//   //     message.resource,
-//   //   );
-//   // }
-
-//   // i18next.changeLanguage(message.language);
-// });
 root.render(
   <React.StrictMode>
-    <I18nextProvider
-      i18n={i18next}
-    >
+    <I18nextProvider i18n={i18next}>
       <HashRouter>
         <App />
       </HashRouter>

@@ -8,17 +8,23 @@ export interface ILanguageChanged {
   resource: unknown;
 }
 
-i18n
-  // .use(Backend)
-  // .use(ChainedBackend)
-  .use(initReactI18next)
-  .init({
+i18n.use(initReactI18next);
+if (!i18n.isInitialized) {
+  i18n.init({
     ...LocaleHelper.getClientI18NextOptions(),
   });
-window.electron.i18next.onLanguageChange((lng) => {
-  console.log('language changed;');
-  i18n.changeLanguage(lng, (error, t) => {
+}
+window.electron.i18next.onLanguageChange((message: ILanguageChanged) => {
+  if (!i18n.hasResourceBundle(message.language, message.namespace)) {
+    i18n.addResourceBundle(
+      message.language,
+      message.namespace,
+      message.resource
+    );
+  }
+  i18n.changeLanguage(message.language, (error, t) => {
     if (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   });
