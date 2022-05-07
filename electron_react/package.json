@@ -160,8 +160,6 @@
     "@types/react-test-renderer": "^17.0.1",
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@types/webpack-env": "^1.16.3",
-    "@typescript-eslint/eslint-plugin": "^5.18.0",
-    "@typescript-eslint/parser": "^5.18.0",
     "browserslist-config-erb": "^0.0.3",
     "chalk": "^4.1.2",
     "concurrently": "^7.1.0",
@@ -177,8 +175,6 @@
     "electron-rebuild": "^3.2.7",
     "electronmon": "^2.0.2",
     "eslint": "^8.12.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-erb": "^4.0.3",
     "eslint-import-resolver-typescript": "^2.7.1",
     "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-compat": "^4.0.2",
@@ -218,6 +214,9 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@trpc/client": "^9.23.2",
+    "@trpc/react": "^9.23.2",
+    "@trpc/server": "^9.23.2",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.6",
     "electron-updater": "^4.6.5",
@@ -229,6 +228,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-i18next": "^11.16.7",
+    "react-query": "^3.38.1",
     "react-router-dom": "^6.3.0"
   },
   "devEngines": {
