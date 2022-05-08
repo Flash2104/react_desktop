@@ -1,6 +1,5 @@
 import {
   BrowserWindow,
-  ipcRenderer,
   Menu,
   MenuItemConstructorOptions,
   shell,

@@ -7,6 +7,7 @@
     "declarationMap": true,
     "jsx": "react-jsx",
     "strict": true,
+    "strictNullChecks": true,
     "pretty": true,
     "sourceMap": true,
     "baseUrl": "./src",

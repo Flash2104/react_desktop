@@ -1,8 +1,19 @@
+import { TRPCResponse } from '@trpc/server/rpc';
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { ILanguageChanged } from 'localization/i18next.client';
 import path from 'path';
 import { changeLanguageRequest, i18nextNamespace } from './util';
 // import { changeLanguageRequest, i18nextNamespace } from './main';
+
+export interface AboutMenuAction {
+  action: 'about';
+}
+
+export interface HelpMenuAction {
+  action: 'help';
+}
+
+export type AppAction = AboutMenuAction | HelpMenuAction;
 
 export interface IElectronApi {
   platform: NodeJS.Platform;
@@ -13,6 +24,13 @@ export interface IElectronApi {
     onReceive: (channel: string, func: (args: any) => void) => void;
     onLanguageChange: (func: (message: ILanguageChanged) => void) => void;
   };
+  rpc: (op: {
+    type: 'query' | 'mutation' | 'subscription';
+    input: unknown;
+    path: string;
+  }) => Promise<TRPCResponse>;
+  receive: (channel: 'app', func: (event: AppAction) => void) => void;
+  log: (msg: string) => void;
   ipcRenderer: {
     myPing(): void;
     on(
@@ -25,7 +43,7 @@ export interface IElectronApi {
 
 // export const changeLanguageRequest = 'ChangeLanguage-Request';
 
-contextBridge.exposeInMainWorld('electron', <IElectronApi>{
+contextBridge.exposeInMainWorld('appApi', <IElectronApi>{
   platform: process.platform,
   environment: process.env.NODE_ENV,
   resourcesPath: path.join(process.resourcesPath, '..'),

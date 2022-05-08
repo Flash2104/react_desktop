@@ -14,7 +14,7 @@ if (!i18n.isInitialized) {
     ...LocaleHelper.getClientI18NextOptions(),
   });
 }
-window.electron.i18next.onLanguageChange((message: ILanguageChanged) => {
+window.appApi.i18next.onLanguageChange((message: ILanguageChanged) => {
   if (!i18n.hasResourceBundle(message.language, message.namespace)) {
     i18n.addResourceBundle(
       message.language,
