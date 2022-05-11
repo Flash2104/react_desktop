@@ -2,7 +2,7 @@ import { TRPCResponse } from '@trpc/server/rpc';
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { ILanguageChanged } from 'localization/i18next.client';
 import path from 'path';
-import { changeLanguageRequest, i18nextNamespace } from './util';
+import { changeLanguageRequest } from './util';
 // import { changeLanguageRequest, i18nextNamespace } from './main';
 
 export interface AboutMenuAction {
@@ -71,6 +71,11 @@ contextBridge.exposeInMainWorld('appApi', <IElectronApi>{
       );
     },
   },
+  rpc: (op: {
+    type: 'query' | 'mutation' | 'subscription';
+    input: unknown;
+    path: string;
+  }) => ipcRenderer.invoke('rpc', op),
   ipcRenderer: {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');

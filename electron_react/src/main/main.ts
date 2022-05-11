@@ -15,6 +15,12 @@ import path from 'path';
 import i18n from '../localization/i18next.backend';
 import { ILanguageChanged } from '../localization/i18next.client';
 import MenuBuilder from './menu';
+import { createContext } from './trpc-server/router/context';
+import { routers } from './trpc-server/router/router';
+import {
+  IpcRpcRequest,
+  resolveIPCResponse,
+} from './trpc-server/trps-internals';
 // import { i18nextNamespace } from './preload';
 import {
   changeLanguageRequest,
@@ -132,6 +138,29 @@ const createWindow = async () => {
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
+
+  // handle tRPC requests coming from the renderer process
+  ipcMain.handle('rpc', async (event, req: IpcRpcRequest) => {
+    // console.log(arg)
+
+    const output = await resolveIPCResponse({
+      batching: {
+        enabled: !!req.isBatch,
+      },
+      req: req,
+      router: routers(),
+      createContext: () => createContext({ event, req }),
+    });
+
+    return {
+      ...output,
+      id: req.id,
+    };
+  });
+
+  ipcMain.on('log', (event, msg) => {
+    log.error('Client error: ' + msg);
+  });
 };
 
 /**
