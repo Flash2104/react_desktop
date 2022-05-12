@@ -1,3 +1,4 @@
+import { parseJson } from 'builder-util-runtime';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -27,7 +28,7 @@ const GithubUser = (props: {
   isLoading: boolean;
   isError: boolean;
   errorMessage: string | null | undefined;
-  data: any;
+  data: IGithubUsersDto | undefined;
 }) => {
   if (props.isLoading) {
     return <div>Loading...</div>;
@@ -35,7 +36,7 @@ const GithubUser = (props: {
   if (props.isError) {
     return <div>Error: {props.errorMessage}</div>;
   }
-  return <div>UserDto: {props.data}</div>;
+  return <div> User Name: {props.data?.name}</div>;
 };
 
 const Hello = () => {
@@ -63,14 +64,14 @@ const Hello = () => {
         }
         text={helloQuery.data?.greeting}
       ></Greeting>
-      {/* <GithubUser
+      <GithubUser
         isLoading={githubUser.isLoading}
         isError={githubUser.isError}
         errorMessage={
           githubUser.error != null ? githubUser.error.message : null
         }
         data={githubUser.data}
-      ></GithubUser> */}
+      ></GithubUser>
       <div className="Hello">
         <a
           href="https://electron-react-boilerplate.js.org/"
